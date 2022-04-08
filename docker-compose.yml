@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  front.service:
+    container_name: frontend-esteira-analise
+    build: ./
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
