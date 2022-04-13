@@ -2,11 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from "./Pages/QrCode";
+import Dashboard from "./Pages/Dashboard";
 
 function Routes() {
   return (
     <Router>
-      <Route path="/" exact component={Home} />
+      <Route path="/" exact component={Dashboard} />
+      <Route path="/conexao" exact component={Home} />
     </Router>
   );
 }
