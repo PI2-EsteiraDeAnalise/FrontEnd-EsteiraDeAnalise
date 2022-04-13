@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom";
 import { apiIPDetector } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
       const networkData = await apiIPDetector.get("v1/?api_key=" + apiKey);
 
       console.log(networkData.data.ip_address);
+
       dispatch(
         authAction.logIn({
           token: "",
