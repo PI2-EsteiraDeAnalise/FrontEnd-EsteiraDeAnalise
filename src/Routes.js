@@ -7,7 +7,7 @@ import { ProtectedRoute } from "./protectedRoutes";
 function Routes() {
   return (
     <Router>
-      <ProtectedRoute path="/" exact component={Home} />
+      <Route path="/QRCode" exact component={Home} />
     </Router>
   );
 }

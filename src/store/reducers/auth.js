@@ -10,7 +10,7 @@ const authReducer = (state = initialState, action) => {
     case types.LOG_IN:
       return {
         token: action.content.token,
-        ip: action.content.username,
+        ip: action.content.ip,
       };
     case types.LOG_OUT:
       return initialState;
