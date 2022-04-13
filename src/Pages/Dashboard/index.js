@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chart } from 'react-google-charts';
+import { BrowserView, MobileView } from 'react-device-detect';
 
 export const data = [
   ['Quantity', 'Success', 'Failed'],
@@ -53,29 +54,34 @@ export const optionsBarChart = {
 const Dashboard = () => {
   return (
     <>
-      <Chart
-        chartType="LineChart"
-        width="100%"
-        height="400px"
-        data={data}
-        options={options}
-      />
-      <div>
+      <BrowserView>
         <Chart
-          chartType="PieChart"
-          data={dataPieChart}
-          options={optionsPieChart}
-          width={'100%'}
-          height={'400px'}
-        />
-        <Chart
-          chartType="BarChart"
+          chartType="LineChart"
           width="100%"
           height="400px"
-          data={dataBarChart}
-          options={optionsBarChart}
+          data={data}
+          options={options}
         />
-      </div>
+        <div>
+          <Chart
+            chartType="PieChart"
+            data={dataPieChart}
+            options={optionsPieChart}
+            width={'100%'}
+            height={'400px'}
+          />
+          <Chart
+            chartType="BarChart"
+            width="100%"
+            height="400px"
+            data={dataBarChart}
+            options={optionsBarChart}
+          />
+        </div>
+      </BrowserView>
+      <MobileView>
+        <h1>This is rendered only on mobile</h1>
+      </MobileView>
     </>
   );
 };
