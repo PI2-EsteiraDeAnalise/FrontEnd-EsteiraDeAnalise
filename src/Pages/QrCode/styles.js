@@ -9,8 +9,17 @@ export const Background = styled.div`
   justify-content: center;
   align-items: center;
 
+  img {
+    width: 300px;
+  }
+
   p {
+    margin-top: 20px;
     color: white;
+  }
+
+  .input-container {
+    margin-top: 20px;
   }
 
   button {

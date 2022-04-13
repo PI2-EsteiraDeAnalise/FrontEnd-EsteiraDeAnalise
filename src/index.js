@@ -1,19 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Routes from "./Routes";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./store";
 import reportWebVitals from "./reportWebVitals";
+
 import GlobalStyle from "./styles/global";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
-        <Routes />
-      </PersistGate>
-    </Provider>
+    <Routes />
 
     <GlobalStyle />
   </React.StrictMode>,
