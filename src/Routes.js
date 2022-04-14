@@ -6,7 +6,7 @@ import Home from "./Pages/QrCode";
 function Routes() {
   return (
     <Router>
-      <Route path="/" exact component={Home} />
+      <Route path="/QRCode" exact component={Home} />
     </Router>
   );
 }

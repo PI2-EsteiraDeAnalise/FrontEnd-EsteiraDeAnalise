@@ -3,9 +3,13 @@ import ReactDOM from "react-dom";
 import Routes from "./Routes";
 import reportWebVitals from "./reportWebVitals";
 
+import GlobalStyle from "./styles/global";
+
 ReactDOM.render(
   <React.StrictMode>
     <Routes />
+
+    <GlobalStyle />
   </React.StrictMode>,
   document.getElementById("root")
 );
