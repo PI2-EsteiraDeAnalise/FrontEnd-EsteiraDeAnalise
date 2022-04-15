@@ -1,5 +1,7 @@
+import { Button } from "@mui/material";
 import React from "react";
 import imgCoord from "../../images/download.jpg";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
 
 const Coordenadas = () => {
@@ -20,16 +22,22 @@ const Coordenadas = () => {
     }
   };
 
-  const placeImage = (x1, y1, x2, y2) => {
+  const placeImage = (realC, imgC) => {
+    let x1 = realC[0];
+    let y1 = realC[1];
+    let x2 = realC[2];
+    let y2 = realC[3];
+
     const e = document.createElement("div");
+
     e.style.position = "absolute";
 
-    const red = Math.random() * 255;
-    const green = Math.random() * 255;
-    const blue = Math.random() * 255;
+    const red = Math.random() * 155 + 100;
+    const green = Math.random() * 155 + 100;
+    const blue = Math.random() * 155 + 100;
 
-    e.style.backgroundColor = `rgba(${red},${green},${blue},0.7)`;
-    e.style.border = `1px solid rgba(${red},${green},${blue},0.7)`;
+    e.style.backgroundColor = `rgba(${red},${green},${blue},0.0)`;
+    e.style.border = `4px solid rgba(${red},${green},${blue},1)`;
 
     let auxmin = 0;
     let auxmax = 0;
@@ -58,6 +66,14 @@ const Coordenadas = () => {
     console.log(h);
     e.style.height = h + "px";
 
+    e.setAttribute(
+      "id",
+      "coord-" +
+        imgC[0].toString() +
+        imgC[1].toString() +
+        imgC[2].toString() +
+        imgC[3].toString()
+    );
     document.body.appendChild(e);
   };
 
@@ -91,7 +107,9 @@ const Coordenadas = () => {
       setRealCoordenada([e.pageX, e.pageY]);
       setIsSecondClick(true);
     } else {
-      placeImage(realCoordenada[0], realCoordenada[1], e.pageX, e.pageY);
+      let realC = [realCoordenada[0], realCoordenada[1], e.pageX, e.pageY];
+      let imgC = [coordenada[0], coordenada[1], PosX, PosY];
+      placeImage(realC, imgC);
       setCoordenadas([
         ...coordenadas,
         [coordenada[0], coordenada[1], PosX, PosY],
@@ -102,12 +120,28 @@ const Coordenadas = () => {
     console.log(coordenadas);
   };
 
-  const addHandle = () => {};
+  const removeHandle = (index) => {
+    if (coordenadas.length > 0) {
+      console.log(index);
 
-  const removeHandle = () => {
-    let tempCoord = coordenadas.map((coord) => coord);
+      let tempCoord = coordenadas.map((coord) => coord);
 
-    setCoordenadas(tempCoord.slice(0, tempCoord.length - 1));
+      let id =
+        "coord-" +
+        tempCoord[index][0].toString() +
+        tempCoord[index][1].toString() +
+        tempCoord[index][2].toString() +
+        tempCoord[index][3].toString();
+
+      console.log(id);
+
+      document.getElementById(id).remove();
+
+      tempCoord.splice(index, 1);
+      console.log(tempCoord);
+
+      setCoordenadas(tempCoord);
+    }
   };
 
   return (
@@ -124,25 +158,39 @@ const Coordenadas = () => {
           />
         </div>
         <div className="container-coord">
-          <div className="container-control">
-            <button onClick={addHandle}>+</button>
-            <button onClick={removeHandle}>-</button>
-          </div>
+          <p>Clique em dois pontos na imagem para adicionar uma coordenada.</p>
           <div className="container-coord-input">
             {coordenadas &&
               coordenadas.map((coord, index) => {
                 return (
                   <>
                     <div className="title-coord">
-                      <h3>{index}-Coordenada</h3>
+                      <p>{index + 1}-Coordenada</p>
+                      <Button
+                        sx={{
+                          padding: "0",
+                          width: "20px",
+                          height: "20px",
+                          backgroundColor: "white",
+                          color: "black",
+                        }}
+                        onClick={() => {
+                          removeHandle(index);
+                        }}
+                        variant="contained"
+                      >
+                        <DeleteIcon />
+                      </Button>
                     </div>
-                    <div className="first-input-coord">
-                      <p>x1: {coord[0]}</p>
-                      <p>y1: {coord[1]}</p>
-                    </div>
-                    <div className="second-input-coord">
-                      <p>x2: {coord[2]}</p>
-                      <p>y2: {coord[3]}</p>
+                    <div className="container-coord-input-item">
+                      <div className="first-input-coord">
+                        <p className="coord-text">x1: {coord[0]}</p>
+                        <p className="coord-text">y1: {coord[1]}</p>
+                      </div>
+                      <div className="second-input-coord">
+                        <p className="coord-text">x2: {coord[2]}</p>
+                        <p className="coord-text">y2: {coord[3]}</p>
+                      </div>
                     </div>
                   </>
                 );
