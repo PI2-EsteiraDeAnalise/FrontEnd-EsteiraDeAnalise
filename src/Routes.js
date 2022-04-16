@@ -1,9 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Menu from './Components/Menu';
-import Home from './Pages/QrCode';
-import Dashboard from './Pages/Dashboard';
+import Home from "./Pages/QrCode";
+import Coordenadas from "./Pages/Coordenadas";
+import Menu from "./Components/Menu";
+import Dashboard from "./Pages/Dashboard";
 
 function Routes() {
   return (
@@ -11,6 +12,7 @@ function Routes() {
       <Menu />
       <Route path="/" exact component={Dashboard} />
       <Route path="/QRCode" exact component={Home} />
+      <Route path="/Coordenadas" exact component={Coordenadas} />
     </Router>
   );
 }
