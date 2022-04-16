@@ -8,7 +8,7 @@ function Routes() {
   return (
     <Router>
       <Route path="/" exact component={Dashboard} />
-      <Route path="/conexao" exact component={Home} />
+      <Route path="/QRCode" exact component={Home} />
     </Router>
   );
 }
