@@ -20,21 +20,19 @@ export const options = {
   series: {
     0: { color: '#7459D9' },
     1: { color: '#B9ABEB' },
-    2: { color: '#E3DEF7' },
   },
 };
 
 export const dataPieChart = [
   ['Board', 'Total'],
   ['Total Succeed', 42000],
-  ['Total under Review', 17000],
   ['Total Failed', 20000],
 ];
 
 export const optionsPieChart = {
   title: 'Perpetual',
   is3D: true,
-  colors: ['#7459D9', '#B9ABEB', '#E3DEF7'],
+  colors: ['#7459D9', '#B9ABEB'],
   pieSliceTextStyle: {
     color: 'black',
   },
@@ -48,7 +46,7 @@ export const dataBarChart = [
 export const optionsBarChart = {
   title: 'Active Percentage',
   chartArea: { width: '50%' },
-  colors: ['#7459D9', '#E3DEF7'],
+  colors: ['#7459D9', '#B9ABEB'],
 };
 
 const Dashboard = () => {
