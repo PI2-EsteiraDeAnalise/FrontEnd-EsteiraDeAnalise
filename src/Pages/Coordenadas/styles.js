@@ -79,4 +79,8 @@ export const Background = styled.div`
       border-radius: 5px;
     }
   }
+
+  @media screen and (max-width: 830px) {
+    flex-direction: column;
+  }
 `;
