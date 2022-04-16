@@ -1,15 +1,123 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { SectionWeb, SectionMobile } from './styles';
 import { BrowserView, MobileView } from 'react-device-detect';
+import List from '@mui/material/List';
+import {
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from '@mui/material';
+import Info from '@mui/icons-material/Info';
+import Merge from '@mui/icons-material/Merge';
+import Dashboard from '@mui/icons-material/Dashboard';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 const Menu = () => {
+  const [open, setOpen] = useState(false);
+  const [namePage, setNamePage] = useState('Dashboard');
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    switch (window.location.pathname) {
+      case '/':
+        setNamePage('Dashboard');
+        break;
+      case '/Coordenadas':
+        setNamePage('Coordenadas');
+        break;
+      case '/Informacoes':
+        setNamePage('Informações');
+        break;
+      default:
+        break;
+    }
+  }, [namePage]);
+
   return (
     <>
       <BrowserView>
-        <p>Web</p>
+        <SectionWeb>
+          <header>
+            <nav>
+              <div>
+                <Link to="/">Dashboard</Link>
+                <Link to="/Coordenadas">Coordenadas</Link>
+                <Link to="/Informacoes">Informações</Link>
+                <Link to="/QRCode">Conexão</Link>
+              </div>
+            </nav>
+          </header>
+        </SectionWeb>
       </BrowserView>
 
       <MobileView>
-        <p>Mobile</p>
+        <List sx={{ width: '100%', bgcolor: '#E3DEF7' }} component="nav">
+          <ListItemButton onClick={handleClick}>
+            <ListItemText primary={namePage} sx={{ textAlign: 'center' }} />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  setNamePage('Dashboard');
+                }}
+              >
+                <SectionMobile>
+                  <ListItemIcon>
+                    <Dashboard sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <Link to="/">
+                    <ListItemText
+                      primary="Dashboard"
+                      sx={{ textAlign: 'center' }}
+                    />
+                  </Link>
+                </SectionMobile>
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  setNamePage('Informações');
+                }}
+              >
+                <SectionMobile>
+                  <ListItemIcon>
+                    <Info sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <Link to="/Informacoes">
+                    <ListItemText
+                      primary="Informações"
+                      sx={{ textAlign: 'center' }}
+                    />
+                  </Link>
+                </SectionMobile>
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  setNamePage('Coordenadas');
+                }}
+              >
+                <SectionMobile>
+                  <ListItemIcon>
+                    <Merge sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <Link to="/Coordenadas">
+                    <ListItemText
+                      primary="Coordenadas"
+                      sx={{ textAlign: 'center' }}
+                    />
+                  </Link>
+                </SectionMobile>
+              </ListItemButton>
+            </List>
+          </Collapse>
+        </List>
       </MobileView>
     </>
   );
