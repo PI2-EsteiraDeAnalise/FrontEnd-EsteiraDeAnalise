@@ -2,7 +2,7 @@ import React from "react";
 import { Background } from "./styles";
 import { QRCodeSVG } from "qrcode.react";
 
-const Home = () => {
+const QRCode = () => {
   return (
     <>
       <Background className="Background">
@@ -17,4 +17,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default QRCode;
