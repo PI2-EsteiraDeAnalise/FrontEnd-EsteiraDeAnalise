@@ -4,7 +4,7 @@ import { Section } from './styles';
 import { BrowserView, MobileView } from 'react-device-detect';
 
 export const data = [
-  ['Quantity', 'Success', 'Failed'],
+  ['Quantidade', 'Sucesso', 'Falhas'],
   ['1', 1500, 1800],
   ['5', 1600, 1200],
   ['10', 1200, 700],
@@ -15,7 +15,7 @@ export const data = [
 ];
 
 export const options = {
-  title: 'Total boards',
+  title: 'Total de placas',
   curveType: 'function',
   legend: { position: 'bottom' },
   series: {
@@ -25,13 +25,13 @@ export const options = {
 };
 
 export const dataPieChart = [
-  ['Board', 'Total'],
-  ['Total Succeed', 42000],
-  ['Total Failed', 20000],
+  ['Placas', 'Total'],
+  ['Total de Sucessos', 42000],
+  ['Total de Falhas', 20000],
 ];
 
 export const optionsPieChart = {
-  title: 'Perpetual',
+  title: 'Porcentual',
   is3D: true,
   colors: ['#7459D9', '#B9ABEB'],
   pieSliceTextStyle: {
@@ -40,12 +40,12 @@ export const optionsPieChart = {
 };
 
 export const dataBarChart = [
-  ['Quantity', 'Success', 'Failed'],
+  ['Quantidade', 'Sucesso', 'Falhas'],
   [`${380} Total`, 340, 40],
 ];
 
 export const optionsBarChart = {
-  title: 'Active Percentage',
+  title: 'Porcentagem de placas ativas',
   chartArea: { width: '50%' },
   colors: ['#7459D9', '#B9ABEB'],
 };
@@ -66,13 +66,11 @@ const Dashboard = () => {
             chartType="PieChart"
             data={dataPieChart}
             options={optionsPieChart}
-            width={'50%'}
             height={'400px'}
           />
           <Chart
             chartType="BarChart"
             height="400px"
-            width={'50%'}
             data={dataBarChart}
             options={optionsBarChart}
           />
