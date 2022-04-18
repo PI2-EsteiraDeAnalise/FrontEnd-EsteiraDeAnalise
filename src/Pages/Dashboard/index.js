@@ -31,7 +31,7 @@ export const dataPieChart = [
 ];
 
 export const optionsPieChart = {
-  title: 'Porcentual',
+  title: 'Porcentual de todos os dados obtidos',
   is3D: true,
   colors: ['#7459D9', '#B9ABEB'],
   pieSliceTextStyle: {
