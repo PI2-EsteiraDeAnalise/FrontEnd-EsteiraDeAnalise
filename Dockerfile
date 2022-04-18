@@ -2,14 +2,12 @@ FROM node:lts-alpine as builder
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json /app
 
 RUN yarn
 
-COPY . ./
+COPY . /app
 
 EXPOSE 3000
 
-CMD ["CHMOD" "777" "node_modules"]
-
-CMD ["yarn", "start"]
+ENTRYPOINT ["yarn", "start"]
