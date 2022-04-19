@@ -4,7 +4,7 @@ export const Background = styled.div`
   width: 100%;
   max-width: 1000px;
   min-height: 100vh;
-  margin: 0 2%;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +15,7 @@ export const Background = styled.div`
   }
 
   .container-img img {
-    width: 450px;
+    width: 100%;
     border: 4px solid #7459d9;
     border-radius: 10px;
   }
@@ -81,6 +81,38 @@ export const Background = styled.div`
   }
 
   @media screen and (max-width: 830px) {
+    margin-top: 12px;
     flex-direction: column;
+
+    .container-coord {
+      height: 60vh;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    margin-top: 15px;
+    flex-direction: column;
+
+    .container-img {
+      width: 80%;
+    }
+
+    .container-coord {
+      width: 60%;
+      height: 40vh;
+    }
+  }
+
+  @media screen and (max-width: 370px) {
+    margin-top: 5px;
+    flex-direction: column;
+
+    .container-img {
+      width: 90%;
+    }
+
+    .container-coord {
+      width: 80%;
+    }
   }
 `;

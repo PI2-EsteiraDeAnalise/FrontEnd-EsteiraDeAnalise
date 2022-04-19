@@ -49,4 +49,17 @@ export const Background = styled.div`
     border: 1px solid black;
     border-radius: 5px;
   }
+
+  .dot-container {
+    display: flex;
+    margin: 20px auto;
+  }
+`;
+
+export const Dot = styled.div`
+  margin: 0 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: ${(props) => props.BackColor};
 `;

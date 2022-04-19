@@ -1,58 +1,61 @@
-import React from 'react';
-import { Chart } from 'react-google-charts';
-import { Section } from './styles';
-import { BrowserView, MobileView } from 'react-device-detect';
+import React from "react";
+import { Chart } from "react-google-charts";
+import { Section } from "./styles";
+import { BrowserView, MobileView } from "react-device-detect";
+
+import Menu from "../../Components/Menu";
 
 export const data = [
-  ['Quantity', 'Success', 'Failed'],
-  ['1', 1500, 1800],
-  ['5', 1600, 1200],
-  ['10', 1200, 700],
-  ['15', 2000, 2300],
-  ['20', 2500, 1500],
-  ['25', 2300, 2000],
-  ['30', 1900, 700],
+  ["Quantity", "Success", "Failed"],
+  ["1", 1500, 1800],
+  ["5", 1600, 1200],
+  ["10", 1200, 700],
+  ["15", 2000, 2300],
+  ["20", 2500, 1500],
+  ["25", 2300, 2000],
+  ["30", 1900, 700],
 ];
 
 export const options = {
-  title: 'Total boards',
-  curveType: 'function',
-  legend: { position: 'bottom' },
+  title: "Total boards",
+  curveType: "function",
+  legend: { position: "bottom" },
   series: {
-    0: { color: '#7459D9' },
-    1: { color: '#B9ABEB' },
+    0: { color: "#7459D9" },
+    1: { color: "#B9ABEB" },
   },
 };
 
 export const dataPieChart = [
-  ['Board', 'Total'],
-  ['Total Succeed', 42000],
-  ['Total Failed', 20000],
+  ["Board", "Total"],
+  ["Total Succeed", 42000],
+  ["Total Failed", 20000],
 ];
 
 export const optionsPieChart = {
-  title: 'Perpetual',
+  title: "Perpetual",
   is3D: true,
-  colors: ['#7459D9', '#B9ABEB'],
+  colors: ["#7459D9", "#B9ABEB"],
   pieSliceTextStyle: {
-    color: 'black',
+    color: "black",
   },
 };
 
 export const dataBarChart = [
-  ['Quantity', 'Success', 'Failed'],
+  ["Quantity", "Success", "Failed"],
   [`${380} Total`, 340, 40],
 ];
 
 export const optionsBarChart = {
-  title: 'Active Percentage',
-  chartArea: { width: '50%' },
-  colors: ['#7459D9', '#B9ABEB'],
+  title: "Active Percentage",
+  chartArea: { width: "50%" },
+  colors: ["#7459D9", "#B9ABEB"],
 };
 
 const Dashboard = () => {
   return (
     <>
+      <Menu />
       <BrowserView>
         <Chart
           chartType="LineChart"
@@ -66,13 +69,13 @@ const Dashboard = () => {
             chartType="PieChart"
             data={dataPieChart}
             options={optionsPieChart}
-            width={'50%'}
-            height={'400px'}
+            width={"50%"}
+            height={"400px"}
           />
           <Chart
             chartType="BarChart"
             height="400px"
-            width={'50%'}
+            width={"50%"}
             data={dataBarChart}
             options={optionsBarChart}
           />
@@ -90,13 +93,13 @@ const Dashboard = () => {
           chartType="PieChart"
           data={dataPieChart}
           options={optionsPieChart}
-          width={'100%'}
-          height={'400px'}
+          width={"100%"}
+          height={"400px"}
         />
         <Chart
           chartType="BarChart"
           height="400px"
-          width={'100%'}
+          width={"100%"}
           data={dataBarChart}
           options={optionsBarChart}
         />

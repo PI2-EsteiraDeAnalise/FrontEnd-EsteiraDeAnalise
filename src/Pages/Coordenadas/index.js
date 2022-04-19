@@ -4,6 +4,8 @@ import imgCoord from "../../images/download.jpg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
 
+import Menu from "../../Components/Menu";
+
 const Coordenadas = () => {
   const [coordenada, setCoordenada] = React.useState([]);
   const [realCoordenada, setRealCoordenada] = React.useState([]);
@@ -146,6 +148,7 @@ const Coordenadas = () => {
 
   return (
     <>
+      <Menu coords={coordenadas} />
       <Background>
         <div className="container-img">
           <img
