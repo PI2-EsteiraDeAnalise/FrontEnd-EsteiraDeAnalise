@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SectionWeb = styled.div`
-  nav {
+  button {
     display: flex;
     justify-content: space-between;
     align-items: center;
