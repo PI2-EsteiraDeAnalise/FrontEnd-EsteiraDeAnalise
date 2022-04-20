@@ -11,6 +11,7 @@ const Coordenadas = () => {
   const [realCoordenada, setRealCoordenada] = React.useState([]);
   const [coordenadas, setCoordenadas] = React.useState([]);
   const [isSecondClick, setIsSecondClick] = React.useState(false);
+  const [picture, setPicture] = React.useState(null);
 
   const FindPosition = (oElement) => {
     if (typeof oElement.offsetParent != "undefined") {
@@ -122,6 +123,21 @@ const Coordenadas = () => {
     console.log(coordenadas);
   };
 
+  const handleClickInputImage = () => {
+    document.getElementById("UpImage").click();
+  };
+
+  const handleInputImage = async (tempPicture) => {
+    console.log("entrei");
+
+    const newFile = {
+      file: tempPicture[0],
+      url: URL.createObjectURL(tempPicture[0]),
+    };
+
+    setPicture(newFile);
+  };
+
   const removeHandle = (index) => {
     if (coordenadas.length > 0) {
       console.log(index);
@@ -150,15 +166,36 @@ const Coordenadas = () => {
     <>
       <Menu coords={coordenadas} />
       <Background>
+        <input
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              handleInputImage(e.target.files);
+            }
+          }}
+          id="UpImage"
+          type="file"
+          hidden
+        />
         <div className="container-img">
-          <img
-            onClick={(e) => {
-              handleClickImage(e);
-            }}
-            alt="Imagem da placa"
-            id="imgCoord"
-            src={imgCoord}
-          />
+          <div className="container-border">
+            {picture ? (
+              <img
+                onClick={(e) => {
+                  handleClickImage(e);
+                }}
+                alt={picture.file.name}
+                id="imgCoord"
+                src={picture.url}
+              />
+            ) : (
+              <img
+                onClick={handleClickInputImage}
+                alt="Imagem da placa"
+                id="imgCoord"
+                src={imgCoord}
+              />
+            )}
+          </div>
         </div>
         <div className="container-coord">
           <p>Clique em dois pontos na imagem para adicionar uma coordenada.</p>
@@ -199,6 +236,21 @@ const Coordenadas = () => {
                 );
               })}
           </div>
+          <Button
+            sx={{
+              padding: "0",
+              width: "20px",
+              height: "20px",
+              backgroundColor: "white",
+              color: "black",
+              position: "absolute",
+              bottom: "10px",
+            }}
+            onClick={() => {}}
+            variant="contained"
+          >
+            salvar
+          </Button>
         </div>
       </Background>
     </>
