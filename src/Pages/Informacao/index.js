@@ -60,7 +60,6 @@ const Informacoes = () => {
 
       setSensoresMatrix(typeSensorMatrix);
 
-      console.log(typeSensorMatrix);
     }
   }, []);
 

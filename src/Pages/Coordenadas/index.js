@@ -9,6 +9,7 @@ import {
 import withoutImg from "../../images/NoBoardImage.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
+import { BrowserView, MobileView } from "react-device-detect";
 
 import Menu from "../../Components/Menu";
 
@@ -76,10 +77,8 @@ const Coordenadas = () => {
     e.style.left = x1 + "px";
     e.style.top = y1 + "px";
 
-    console.log(w);
     e.style.width = w + "px";
 
-    console.log(h);
     e.style.height = h + "px";
 
     e.setAttribute(
@@ -115,9 +114,6 @@ const Coordenadas = () => {
     PosX = PosX - ImgPos[0];
     PosY = PosY - ImgPos[1];
 
-    console.log("x:", PosX);
-    console.log("y:", PosY);
-
     if (!isSecondClick) {
       setCoordenada([PosX, PosY]);
       setRealCoordenada([e.pageX, e.pageY]);
@@ -132,8 +128,6 @@ const Coordenadas = () => {
       ]);
       setIsSecondClick(false);
     }
-
-    console.log(coordenadas);
   };
 
   const handleClickInputImage = () => {
@@ -141,8 +135,6 @@ const Coordenadas = () => {
   };
 
   const handleInputImage = async (tempPicture) => {
-    console.log("entrei");
-
     const newFile = {
       file: tempPicture[0],
       url: URL.createObjectURL(tempPicture[0]),
@@ -175,8 +167,6 @@ const Coordenadas = () => {
 
   const removeHandle = (index) => {
     if (coordenadas.length > 0) {
-      console.log(index);
-
       let tempCoord = coordenadas.map((coord) => coord);
 
       let id =
@@ -186,12 +176,9 @@ const Coordenadas = () => {
         tempCoord[index][2].toString() +
         tempCoord[index][3].toString();
 
-      console.log(id);
-
       document.getElementById(id).remove();
 
       tempCoord.splice(index, 1);
-      console.log(tempCoord);
 
       setCoordenadas(tempCoord);
     }
@@ -199,130 +186,142 @@ const Coordenadas = () => {
 
   return (
     <>
-      <Menu coords={coordenadas} />
-      <Background>
-        <input
-          onChange={(e) => {
-            if (e.target.files && e.target.files.length > 0) {
-              handleInputImage(e.target.files);
-            }
-          }}
-          id="UpImage"
-          type="file"
-          hidden
-        />
-        <div className="container-img">
-          <div className="container-border">
-            {picture ? (
-              <img
-                onClick={(e) => {
-                  handleClickImage(e);
-                }}
-                alt={picture.file.name}
-                id="imgCoord"
-                src={picture.url}
-              />
-            ) : (
-              <img
-                onClick={handleClickInputImage}
-                alt="Imagem da placa"
-                id="imgCoord"
-                src={withoutImg}
-              />
-            )}
-          </div>
-        </div>
-        <div className="container-coord">
-          <p>Clique em dois pontos na imagem para adicionar uma coordenada.</p>
-          <div className="container-coord-input">
-            {coordenadas &&
-              coordenadas.map((coord, index) => {
-                return (
-                  <>
-                    <div className="title-coord">
-                      <p>{index + 1}-Coordenada</p>
-                      <Button
-                        sx={{
-                          padding: "0",
-                          width: "20px",
-                          height: "20px",
-                          backgroundColor: "white",
-                          color: "black",
-                        }}
-                        onClick={() => {
-                          removeHandle(index);
-                        }}
-                        variant="contained"
-                      >
-                        <DeleteIcon />
-                      </Button>
-                    </div>
-                    <div className="container-coord-input-item">
-                      <div className="text-input-coord">
-                        <Box sx={{ minWidth: 120 }}>
-                          <FormControl fullWidth>
-                            <InputLabel
-                              variant="standard"
-                              htmlFor="uncontrolled-native"
-                              sx={{ color: "whitesmoke" }}
-                            >
-                              Tag
-                            </InputLabel>
-                            <NativeSelect
-                              onChange={(e) => {
-                                handleInsertTag(e, index);
-                              }}
-                              sx={{
-                                border: "1px solid black",
-                                borderRadius: "5px",
-                                paddingLeft: "8px",
-                                backgroundColor: "white",
-                                color: "black",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {tags &&
-                                tags.map((tag) => {
-                                  return <option value={tag}>{tag}</option>;
-                                })}
-                            </NativeSelect>
-                          </FormControl>
-                        </Box>
-                      </div>
-                      <div className="first-input-coord">
-                        <p className="coord-text">x1: {coord[0]}</p>
-                        <p className="coord-text">y1: {coord[1]}</p>
-                      </div>
-                      <div className="second-input-coord">
-                        <p className="coord-text">x2: {coord[2]}</p>
-                        <p className="coord-text">y2: {coord[3]}</p>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-          </div>
-          <Button
-            sx={{
-              padding: "0",
-              width: "200px",
-              height: "30px",
-              backgroundColor: "white",
-              color: "black",
-              position: "absolute",
-              bottom: "10px",
-              "&:hover": {
-                backgroundColor: "#fff",
-                color: "#3c52b2",
-              },
+      <BrowserView>
+        <Menu coords={coordenadas} />
+        <Background>
+          <input
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                handleInputImage(e.target.files);
+              }
             }}
-            onClick={handleSubmit}
-            variant="contained"
-          >
-            salvar
-          </Button>
-        </div>
-      </Background>
+            id="UpImage"
+            type="file"
+            hidden
+          />
+          <div className="container-img">
+            <div className="container-border">
+              {picture ? (
+                <img
+                  onClick={(e) => {
+                    handleClickImage(e);
+                  }}
+                  alt={picture.file.name}
+                  id="imgCoord"
+                  src={picture.url}
+                />
+              ) : (
+                <img
+                  onClick={handleClickInputImage}
+                  alt="Imagem da placa"
+                  id="imgCoord"
+                  src={withoutImg}
+                />
+              )}
+            </div>
+          </div>
+          <div className="container-coord">
+            <p>
+              Clique em dois pontos na imagem para adicionar uma coordenada.
+            </p>
+            <div className="container-coord-input">
+              {coordenadas &&
+                coordenadas.map((coord, index) => {
+                  return (
+                    <>
+                      <div className="title-coord">
+                        <p>{index + 1}-Coordenada</p>
+                        <Button
+                          sx={{
+                            padding: "0",
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: "white",
+                            color: "black",
+                            "&:hover": {
+                              backgroundColor: "#fff",
+                              color: "#3c52b2",
+                            },
+                          }}
+                          onClick={() => {
+                            removeHandle(index);
+                          }}
+                          variant="contained"
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </div>
+                      <div className="container-coord-input-item">
+                        <div className="text-input-coord">
+                          <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                              <InputLabel
+                                variant="standard"
+                                htmlFor="uncontrolled-native"
+                                sx={{ color: "whitesmoke" }}
+                              >
+                                Tag
+                              </InputLabel>
+                              <NativeSelect
+                                onChange={(e) => {
+                                  handleInsertTag(e, index);
+                                }}
+                                sx={{
+                                  border: "1px solid black",
+                                  borderRadius: "5px",
+                                  paddingLeft: "8px",
+                                  backgroundColor: "white",
+                                  color: "black",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                <option value="">Selecione uma tag</option>
+                                {tags &&
+                                  tags.map((tag) => {
+                                    return <option value={tag}>{tag}</option>;
+                                  })}
+                              </NativeSelect>
+                            </FormControl>
+                          </Box>
+                        </div>
+                        <div className="container-coord-input-item">
+                          <div className="first-input-coord">
+                            <p className="coord-text">x1: {coord[0]}</p>
+                            <p className="coord-text">y1: {coord[1]}</p>
+                          </div>
+                          <div className="second-input-coord">
+                            <p className="coord-text">x2: {coord[2]}</p>
+                            <p className="coord-text">y2: {coord[3]}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+            </div>
+            <Button
+              sx={{
+                padding: "0",
+                width: "200px",
+                height: "30px",
+                backgroundColor: "white",
+                color: "black",
+                position: "absolute",
+                bottom: "10px",
+                "&:hover": {
+                  backgroundColor: "#fff",
+                  color: "#3c52b2",
+                },
+              }}
+              onClick={handleSubmit}
+              variant="contained"
+            >
+              salvar
+            </Button>
+          </div>
+        </Background>
+      </BrowserView>
+      <MobileView>Para visualizamento, acesse na plataforma web</MobileView>
     </>
   );
 };
