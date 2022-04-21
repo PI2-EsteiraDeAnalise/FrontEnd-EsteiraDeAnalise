@@ -1,17 +1,30 @@
-import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import {
+  Button,
+  Box,
+  InputLabel,
+  FormControl,
+  NativeSelect,
+} from "@mui/material";
 import withoutImg from "../../images/NoBoardImage.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
 
 import Menu from "../../Components/Menu";
 
+const data = ["resistor", "capacitor", "inductor", "diode", "transistor"];
+
 const Coordenadas = () => {
+  const [tags, setTags] = React.useState([]);
   const [coordenada, setCoordenada] = React.useState([]);
   const [realCoordenada, setRealCoordenada] = React.useState([]);
   const [coordenadas, setCoordenadas] = React.useState([]);
   const [isSecondClick, setIsSecondClick] = React.useState(false);
   const [picture, setPicture] = React.useState(null);
+
+  useEffect(() => {
+    setTags(data);
+  }, [coordenadas]);
 
   const FindPosition = (oElement) => {
     if (typeof oElement.offsetParent != "undefined") {
@@ -246,13 +259,35 @@ const Coordenadas = () => {
                     </div>
                     <div className="container-coord-input-item">
                       <div className="text-input-coord">
-                        <input
-                          onChange={(e) => {
-                            handleInsertTag(e, index);
-                          }}
-                          type="text"
-                          placeholder="Tag:"
-                        />
+                        <Box sx={{ minWidth: 120 }}>
+                          <FormControl fullWidth>
+                            <InputLabel
+                              variant="standard"
+                              htmlFor="uncontrolled-native"
+                              sx={{ color: "whitesmoke" }}
+                            >
+                              Tag
+                            </InputLabel>
+                            <NativeSelect
+                              onChange={(e) => {
+                                handleInsertTag(e, index);
+                              }}
+                              sx={{
+                                border: "1px solid black",
+                                borderRadius: "5px",
+                                paddingLeft: "8px",
+                                backgroundColor: "white",
+                                color: "black",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {tags &&
+                                tags.map((tag) => {
+                                  return <option value={tag}>{tag}</option>;
+                                })}
+                            </NativeSelect>
+                          </FormControl>
+                        </Box>
                       </div>
                       <div className="first-input-coord">
                         <p className="coord-text">x1: {coord[0]}</p>

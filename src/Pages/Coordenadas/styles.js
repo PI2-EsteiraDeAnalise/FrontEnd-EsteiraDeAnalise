@@ -75,16 +75,6 @@ export const Background = styled.div`
       margin-bottom: 8px;
     }
 
-    .text-input-coord input {
-      width: 100%;
-      border: 1px solid black;
-      border-radius: 5px;
-      line-height: 30px;
-      height: 30px;
-      color: black;
-      padding-left: 8px;
-    }
-
     .text-input-coord input::placeholder {
       color: black;
       opacity: 1;
