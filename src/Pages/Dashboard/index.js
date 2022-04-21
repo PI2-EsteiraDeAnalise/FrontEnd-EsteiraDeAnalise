@@ -109,6 +109,9 @@ const Dashboard = () => {
           selected={startDate}
           dropdownMode="select"
           width="10px"
+          onKeyDown={(e) => {
+            e.preventDefault();
+          }}
           onChange={(date) => setStartDate(date)}
         />
       </Section>
