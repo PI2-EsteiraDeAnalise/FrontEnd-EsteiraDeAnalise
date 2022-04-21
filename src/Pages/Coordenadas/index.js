@@ -225,7 +225,7 @@ const Coordenadas = () => {
             {coordenadas &&
               coordenadas.map((coord, index) => {
                 return (
-                  <>
+                  <div key={index}>
                     <div className="title-coord">
                       <p>{index + 1}-Coordenada</p>
                       <Button
@@ -263,7 +263,7 @@ const Coordenadas = () => {
                         <p className="coord-text">y2: {coord[3]}</p>
                       </div>
                     </div>
-                  </>
+                  </div>
                 );
               })}
           </div>
