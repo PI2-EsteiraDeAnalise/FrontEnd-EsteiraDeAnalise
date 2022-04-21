@@ -112,6 +112,7 @@ const Dashboard = () => {
           onKeyDown={(e) => {
             e.preventDefault();
           }}
+          onFocus={(e) => e.target.readOnly = true}
           onChange={(date) => setStartDate(date)}
         />
       </Section>

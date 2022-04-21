@@ -127,23 +127,6 @@ const Menu = (props) => {
                   </Link>
                 </SectionMobile>
               </ListItemButton>
-              <ListItemButton
-                onClick={() => {
-                  setNamePage("Coordenadas");
-                }}
-              >
-                <SectionMobile>
-                  <ListItemIcon>
-                    <Merge sx={{ color: "black" }} />
-                  </ListItemIcon>
-                  <Link to="/Coordenadas">
-                    <ListItemText
-                      primary="Coordenadas"
-                      sx={{ textAlign: "center" }}
-                    />
-                  </Link>
-                </SectionMobile>
-              </ListItemButton>
             </List>
           </Collapse>
         </List>
