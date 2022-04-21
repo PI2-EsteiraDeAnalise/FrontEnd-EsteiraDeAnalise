@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import imgCoord from "../../images/download.jpg";
+import withoutImg from "../../images/NoBoardImage.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
 
@@ -148,7 +148,13 @@ const Coordenadas = () => {
 
   const handleSubmit = () => {
     const postCoordenadas = async () => {
-      console.log(coordenadas);
+      if (coordenadas.length === 0) {
+        alert("Deve haver ao menos uma coordenada!");
+        return;
+      } else if (coordenadas.filter((coord) => coord[4] === "").length > 0) {
+        alert("Preencha todas as tags");
+        return;
+      }
     };
 
     postCoordenadas();
@@ -208,7 +214,7 @@ const Coordenadas = () => {
                 onClick={handleClickInputImage}
                 alt="Imagem da placa"
                 id="imgCoord"
-                src={imgCoord}
+                src={withoutImg}
               />
             )}
           </div>
