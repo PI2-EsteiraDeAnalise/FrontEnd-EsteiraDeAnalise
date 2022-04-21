@@ -1,21 +1,34 @@
-import { Button } from '@mui/material';
-import React from 'react';
-import withoutImg from '../../images/NoBoardImage.png';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Background } from './styles';
-import { BrowserView, MobileView } from 'react-device-detect';
+import React, { useEffect } from "react";
+import {
+  Button,
+  Box,
+  InputLabel,
+  FormControl,
+  NativeSelect,
+} from "@mui/material";
+import withoutImg from "../../images/NoBoardImage.png";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Background } from "./styles";
+import { BrowserView, MobileView } from "react-device-detect";
 
-import Menu from '../../Components/Menu';
+import Menu from "../../Components/Menu";
+
+const data = ["resistor", "capacitor", "inductor", "diode", "transistor"];
 
 const Coordenadas = () => {
+  const [tags, setTags] = React.useState([]);
   const [coordenada, setCoordenada] = React.useState([]);
   const [realCoordenada, setRealCoordenada] = React.useState([]);
   const [coordenadas, setCoordenadas] = React.useState([]);
   const [isSecondClick, setIsSecondClick] = React.useState(false);
   const [picture, setPicture] = React.useState(null);
 
+  useEffect(() => {
+    setTags(data);
+  }, [coordenadas]);
+
   const FindPosition = (oElement) => {
-    if (typeof oElement.offsetParent != 'undefined') {
+    if (typeof oElement.offsetParent != "undefined") {
       for (var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent) {
         posX += oElement.offsetLeft;
         posY += oElement.offsetTop;
@@ -32,9 +45,9 @@ const Coordenadas = () => {
     let x2 = realC[2];
     let y2 = realC[3];
 
-    const e = document.createElement('div');
+    const e = document.createElement("div");
 
-    e.style.position = 'absolute';
+    e.style.position = "absolute";
 
     const red = Math.random() * 155 + 100;
     const green = Math.random() * 155 + 100;
@@ -61,16 +74,16 @@ const Coordenadas = () => {
     var w = x2 - x1;
     var h = y2 - y1;
 
-    e.style.left = x1 + 'px';
-    e.style.top = y1 + 'px';
+    e.style.left = x1 + "px";
+    e.style.top = y1 + "px";
 
-    e.style.width = w + 'px';
+    e.style.width = w + "px";
 
-    e.style.height = h + 'px';
+    e.style.height = h + "px";
 
     e.setAttribute(
-      'id',
-      'coord-' +
+      "id",
+      "coord-" +
         imgC[0].toString() +
         imgC[1].toString() +
         imgC[2].toString() +
@@ -83,7 +96,7 @@ const Coordenadas = () => {
     var PosX = 0;
     var PosY = 0;
     var ImgPos;
-    ImgPos = FindPosition(document.getElementById('imgCoord'));
+    ImgPos = FindPosition(document.getElementById("imgCoord"));
     if (!e) e = window.event;
     if (e.pageX || e.pageY) {
       PosX = e.pageX;
@@ -111,14 +124,14 @@ const Coordenadas = () => {
       placeImage(realC, imgC);
       setCoordenadas([
         ...coordenadas,
-        [coordenada[0], coordenada[1], PosX, PosY, ''],
+        [coordenada[0], coordenada[1], PosX, PosY, ""],
       ]);
       setIsSecondClick(false);
     }
   };
 
   const handleClickInputImage = () => {
-    document.getElementById('UpImage').click();
+    document.getElementById("UpImage").click();
   };
 
   const handleInputImage = async (tempPicture) => {
@@ -141,10 +154,10 @@ const Coordenadas = () => {
   const handleSubmit = () => {
     const postCoordenadas = async () => {
       if (coordenadas.length === 0) {
-        alert('Deve haver ao menos uma coordenada!');
+        alert("Deve haver ao menos uma coordenada!");
         return;
-      } else if (coordenadas.filter((coord) => coord[4] === '').length > 0) {
-        alert('Preencha todas as tags');
+      } else if (coordenadas.filter((coord) => coord[4] === "").length > 0) {
+        alert("Preencha todas as tags");
         return;
       }
     };
@@ -154,11 +167,10 @@ const Coordenadas = () => {
 
   const removeHandle = (index) => {
     if (coordenadas.length > 0) {
-
       let tempCoord = coordenadas.map((coord) => coord);
 
       let id =
-        'coord-' +
+        "coord-" +
         tempCoord[index][0].toString() +
         tempCoord[index][1].toString() +
         tempCoord[index][2].toString() +
@@ -216,16 +228,20 @@ const Coordenadas = () => {
               {coordenadas &&
                 coordenadas.map((coord, index) => {
                   return (
-                    <div key={index}>
+                    <>
                       <div className="title-coord">
                         <p>{index + 1}-Coordenada</p>
                         <Button
                           sx={{
-                            padding: '0',
-                            width: '20px',
-                            height: '20px',
-                            backgroundColor: 'white',
-                            color: 'black',
+                            padding: "0",
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: "white",
+                            color: "black",
+                            "&:hover": {
+                              backgroundColor: "#fff",
+                              color: "#3c52b2",
+                            },
                           }}
                           onClick={() => {
                             removeHandle(index);
@@ -237,36 +253,65 @@ const Coordenadas = () => {
                       </div>
                       <div className="container-coord-input-item">
                         <div className="text-input-coord">
-                          <input
-                            onChange={(e) => {
-                              handleInsertTag(e, index);
-                            }}
-                            type="text"
-                            placeholder="Tag:"
-                          />
+                          <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                              <InputLabel
+                                variant="standard"
+                                htmlFor="uncontrolled-native"
+                                sx={{ color: "whitesmoke" }}
+                              >
+                                Tag
+                              </InputLabel>
+                              <NativeSelect
+                                onChange={(e) => {
+                                  handleInsertTag(e, index);
+                                }}
+                                sx={{
+                                  border: "1px solid black",
+                                  borderRadius: "5px",
+                                  paddingLeft: "8px",
+                                  backgroundColor: "white",
+                                  color: "black",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                <option value="">Selecione uma tag</option>
+                                {tags &&
+                                  tags.map((tag) => {
+                                    return <option value={tag}>{tag}</option>;
+                                  })}
+                              </NativeSelect>
+                            </FormControl>
+                          </Box>
                         </div>
-                        <div className="first-input-coord">
-                          <p className="coord-text">x1: {coord[0]}</p>
-                          <p className="coord-text">y1: {coord[1]}</p>
-                        </div>
-                        <div className="second-input-coord">
-                          <p className="coord-text">x2: {coord[2]}</p>
-                          <p className="coord-text">y2: {coord[3]}</p>
+                        <div className="container-coord-input-item">
+                          <div className="first-input-coord">
+                            <p className="coord-text">x1: {coord[0]}</p>
+                            <p className="coord-text">y1: {coord[1]}</p>
+                          </div>
+                          <div className="second-input-coord">
+                            <p className="coord-text">x2: {coord[2]}</p>
+                            <p className="coord-text">y2: {coord[3]}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </>
                   );
                 })}
             </div>
             <Button
               sx={{
-                padding: '0',
-                width: '200px',
-                height: '30px',
-                backgroundColor: 'white',
-                color: 'black',
-                position: 'absolute',
-                bottom: '10px',
+                padding: "0",
+                width: "200px",
+                height: "30px",
+                backgroundColor: "white",
+                color: "black",
+                position: "absolute",
+                bottom: "10px",
+                "&:hover": {
+                  backgroundColor: "#fff",
+                  color: "#3c52b2",
+                },
               }}
               onClick={handleSubmit}
               variant="contained"
