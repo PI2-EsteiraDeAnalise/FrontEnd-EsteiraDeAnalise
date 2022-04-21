@@ -115,7 +115,7 @@ const Coordenadas = () => {
       placeImage(realC, imgC);
       setCoordenadas([
         ...coordenadas,
-        [coordenada[0], coordenada[1], PosX, PosY],
+        [coordenada[0], coordenada[1], PosX, PosY, ""],
       ]);
       setIsSecondClick(false);
     }
@@ -136,6 +136,22 @@ const Coordenadas = () => {
     };
 
     setPicture(newFile);
+  };
+
+  const handleInsertTag = (e, index) => {
+    let tempCoord = coordenadas.map((coord) => coord);
+
+    tempCoord[index][4] = e.target.value;
+
+    setCoordenadas(tempCoord);
+  };
+
+  const handleSubmit = () => {
+    const postCoordenadas = async () => {
+      console.log(coordenadas);
+    };
+
+    postCoordenadas();
   };
 
   const removeHandle = (index) => {
@@ -223,6 +239,15 @@ const Coordenadas = () => {
                       </Button>
                     </div>
                     <div className="container-coord-input-item">
+                      <div className="text-input-coord">
+                        <input
+                          onChange={(e) => {
+                            handleInsertTag(e, index);
+                          }}
+                          type="text"
+                          placeholder="Tag:"
+                        />
+                      </div>
                       <div className="first-input-coord">
                         <p className="coord-text">x1: {coord[0]}</p>
                         <p className="coord-text">y1: {coord[1]}</p>
@@ -239,14 +264,14 @@ const Coordenadas = () => {
           <Button
             sx={{
               padding: "0",
-              width: "20px",
-              height: "20px",
+              width: "200px",
+              height: "30px",
               backgroundColor: "white",
               color: "black",
               position: "absolute",
               bottom: "10px",
             }}
-            onClick={() => {}}
+            onClick={handleSubmit}
             variant="contained"
           >
             salvar

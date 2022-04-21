@@ -66,15 +66,39 @@ export const Background = styled.div`
 
     .container-coord-input .container-coord-input-item {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
     }
 
+    .container-coord-input-item .text-input-coord {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .text-input-coord input {
+      width: 100%;
+      border: 1px solid black;
+      border-radius: 5px;
+      line-height: 30px;
+      height: 30px;
+      color: black;
+      padding-left: 8px;
+    }
+
+    .text-input-coord input::placeholder {
+      color: black;
+      opacity: 1;
+      font-weight: bold;
+    }
+
     .container-coord-input-item .first-input-coord {
-      width: 50%;
+      display: flex;
+      flex-direction: row;
     }
 
     .container-coord-input-item .second-input-coord {
-      width: 50%;
+      display: flex;
+      flex-direction: row;
     }
 
     .container-coord-input .coord-text {
