@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const SectionWeb = styled.div`
+  margin: 25px;
+  
   button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 25px;
   }
 
   a {
