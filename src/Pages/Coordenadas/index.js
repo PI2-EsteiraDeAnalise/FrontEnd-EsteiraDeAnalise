@@ -311,6 +311,10 @@ const Coordenadas = () => {
               color: "black",
               position: "absolute",
               bottom: "10px",
+              "&:hover": {
+                backgroundColor: "#fff",
+                color: "#3c52b2",
+              },
             }}
             onClick={handleSubmit}
             variant="contained"
