@@ -10,7 +10,6 @@ import {
   Collapse,
 } from "@mui/material";
 import Info from "@mui/icons-material/Info";
-import Merge from "@mui/icons-material/Merge";
 import Dashboard from "@mui/icons-material/Dashboard";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -20,7 +19,6 @@ const Menu = (props) => {
 
   const removeHandle = useCallback(() => {
     if (coords !== null && coords.length > 0) {
-      console.log(coords);
 
       for (let index = 0; index < coords.length; index++) {
         let id =
@@ -29,8 +27,6 @@ const Menu = (props) => {
           coords[index][1].toString() +
           coords[index][2].toString() +
           coords[index][3].toString();
-
-        console.log(id);
 
         document.getElementById(id).remove();
       }
