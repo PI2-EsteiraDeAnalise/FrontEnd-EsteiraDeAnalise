@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import imgCoord from "../../images/download.jpg";
+import withoutImg from "../../images/NoBoardImage.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Background } from "./styles";
 
@@ -11,6 +11,7 @@ const Coordenadas = () => {
   const [realCoordenada, setRealCoordenada] = React.useState([]);
   const [coordenadas, setCoordenadas] = React.useState([]);
   const [isSecondClick, setIsSecondClick] = React.useState(false);
+  const [picture, setPicture] = React.useState(null);
 
   const FindPosition = (oElement) => {
     if (typeof oElement.offsetParent != "undefined") {
@@ -114,12 +115,49 @@ const Coordenadas = () => {
       placeImage(realC, imgC);
       setCoordenadas([
         ...coordenadas,
-        [coordenada[0], coordenada[1], PosX, PosY],
+        [coordenada[0], coordenada[1], PosX, PosY, ""],
       ]);
       setIsSecondClick(false);
     }
 
     console.log(coordenadas);
+  };
+
+  const handleClickInputImage = () => {
+    document.getElementById("UpImage").click();
+  };
+
+  const handleInputImage = async (tempPicture) => {
+    console.log("entrei");
+
+    const newFile = {
+      file: tempPicture[0],
+      url: URL.createObjectURL(tempPicture[0]),
+    };
+
+    setPicture(newFile);
+  };
+
+  const handleInsertTag = (e, index) => {
+    let tempCoord = coordenadas.map((coord) => coord);
+
+    tempCoord[index][4] = e.target.value;
+
+    setCoordenadas(tempCoord);
+  };
+
+  const handleSubmit = () => {
+    const postCoordenadas = async () => {
+      if (coordenadas.length === 0) {
+        alert("Deve haver ao menos uma coordenada!");
+        return;
+      } else if (coordenadas.filter((coord) => coord[4] === "").length > 0) {
+        alert("Preencha todas as tags");
+        return;
+      }
+    };
+
+    postCoordenadas();
   };
 
   const removeHandle = (index) => {
@@ -150,15 +188,36 @@ const Coordenadas = () => {
     <>
       <Menu coords={coordenadas} />
       <Background>
+        <input
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              handleInputImage(e.target.files);
+            }
+          }}
+          id="UpImage"
+          type="file"
+          hidden
+        />
         <div className="container-img">
-          <img
-            onClick={(e) => {
-              handleClickImage(e);
-            }}
-            alt="Imagem da placa"
-            id="imgCoord"
-            src={imgCoord}
-          />
+          <div className="container-border">
+            {picture ? (
+              <img
+                onClick={(e) => {
+                  handleClickImage(e);
+                }}
+                alt={picture.file.name}
+                id="imgCoord"
+                src={picture.url}
+              />
+            ) : (
+              <img
+                onClick={handleClickInputImage}
+                alt="Imagem da placa"
+                id="imgCoord"
+                src={withoutImg}
+              />
+            )}
+          </div>
         </div>
         <div className="container-coord">
           <p>Clique em dois pontos na imagem para adicionar uma coordenada.</p>
@@ -186,6 +245,15 @@ const Coordenadas = () => {
                       </Button>
                     </div>
                     <div className="container-coord-input-item">
+                      <div className="text-input-coord">
+                        <input
+                          onChange={(e) => {
+                            handleInsertTag(e, index);
+                          }}
+                          type="text"
+                          placeholder="Tag:"
+                        />
+                      </div>
                       <div className="first-input-coord">
                         <p className="coord-text">x1: {coord[0]}</p>
                         <p className="coord-text">y1: {coord[1]}</p>
@@ -199,6 +267,21 @@ const Coordenadas = () => {
                 );
               })}
           </div>
+          <Button
+            sx={{
+              padding: "0",
+              width: "200px",
+              height: "30px",
+              backgroundColor: "white",
+              color: "black",
+              position: "absolute",
+              bottom: "10px",
+            }}
+            onClick={handleSubmit}
+            variant="contained"
+          >
+            salvar
+          </Button>
         </div>
       </Background>
     </>
