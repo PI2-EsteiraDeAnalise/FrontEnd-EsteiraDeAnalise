@@ -1,39 +1,50 @@
 import React, { useEffect } from "react";
 import { BrowserView, MobileView } from "react-device-detect";
 
-import { Background, Dot } from "./styles";
+import { Background } from "./styles";
 
 import Menu from "../../Components/Menu";
 
 const Informacoes = () => {
-  const [sensoresMatrix, setSensoresMatrix] = React.useState([]);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [sensores, setSensores] = React.useState([]);
 
   useEffect(() => {
     const data = [
       {
-        metrica: "dado forno 1",
-        descricao: "Termopar",
+        metrica: "72 °C",
+        descricao: "Termopar 1",
       },
       {
-        metrica: "dado forno 2",
-        descricao: "Termopar",
+        metrica: "72 °C",
+        descricao: "Termopar 2",
       },
       {
-        metrica: "dado forno 3",
-        descricao: "Termopar",
+        metrica: "140 °C",
+        descricao: "Termopar 3",
       },
       {
-        metrica: "dado Motor 1",
-        descricao: "Motor",
+        metrica: "30 °C",
+        descricao: "Termopar 4",
       },
       {
-        metrica: "dado Motor 2",
-        descricao: "Motor",
+        metrica: "75 °C",
+        descricao: "Termopar 5",
       },
       {
-        metrica: "dado Motor 3",
-        descricao: "Motor",
+        metrica: "90 °C",
+        descricao: "Termopar 6",
+      },
+      {
+        metrica: "89 °C",
+        descricao: "Termopar 7 ",
+      },
+      {
+        metrica: "102 °C",
+        descricao: "Termopar 8",
+      },
+      {
+        metrica: "Ativo",
+        descricao: "Motores",
       },
     ];
 
@@ -41,111 +52,51 @@ const Informacoes = () => {
       return a.descricao.localeCompare(b.descricao);
     });
 
-    if (data.length > 0) {
-      let typeSensorMatrix = [];
-      let typeSensor = [];
-      let desc = data[0].descricao;
-
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].descricao !== desc) {
-          desc = data[i].descricao;
-          typeSensorMatrix.push(typeSensor);
-          typeSensor = [data[i]];
-        } else {
-          typeSensor.push(data[i]);
-        }
-      }
-
-      if (data[0].descricao !== desc) typeSensorMatrix.push(typeSensor);
-
-      setSensoresMatrix(typeSensorMatrix);
-
-    }
+    setSensores(data);
   }, []);
-
-  const handleDot = (index) => {
-    setActiveStep(index);
-  };
 
   return (
     <>
       <Menu />
       <BrowserView>
         <Background margin="8vh auto" direction="row" className="Background">
-          {sensoresMatrix &&
-            sensoresMatrix.map((sensores, index) => {
-              return (
-                <div key={index} className="container-coord">
-                  <p className="title-coord">
-                    {sensores[0].descricao} - Dados do {sensores[0].descricao}
-                  </p>
-
-                  {sensores.map((sensor, index) => {
-                    return (
-                      <div key={index} className="container-coord-input">
-                        <div className="title-coord-input">
-                          <p>
-                            {index + 1}-{sensor.descricao}
-                          </p>
-                        </div>
-                        <div className="container-coord-input-item">
-                          <p className="coord-text">{sensor.metrica}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
+          <div className="container-sensor">
+            <p className="title-sensor">Informações dos sensores</p>
+            {sensores &&
+              sensores.map((sensor, index) => {
+                return (
+                  <div key={index} className="container-sensor-input">
+                    <div className="title-sensor-input">
+                      <p>{sensor.descricao}</p>
+                    </div>
+                    <div className="container-sensor-input-item">
+                      <p className="sensor-text">{sensor.metrica}</p>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </Background>
       </BrowserView>
       <MobileView>
         <Background margin="6vh auto" direction="column" className="Background">
-          {sensoresMatrix &&
-            sensoresMatrix.map((sensores, index) => {
-              if (index === activeStep) {
+          <div className="container-sensor">
+            <p className="title-sensor">Informações dos sensores</p>
+            {sensores &&
+              sensores.map((sensor, index) => {
                 return (
-                  <div key={index} className="container-coord">
-                    <p className="title-coord">
-                      {sensores[0].descricao} - Dados do {sensores[0].descricao}
-                    </p>
-
-                    {sensores.map((sensor, index) => {
-                      return (
-                        <div key={index} className="container-coord-input">
-                          <div className="title-coord-input">
-                            <p>
-                              {index + 1}-{sensor.descricao}
-                            </p>
-                          </div>
-                          <div className="container-coord-input-item">
-                            <p className="coord-text">{sensor.metrica}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
+                  <div key={index} className="container-sensor-input">
+                    <div className="title-sensor-input">
+                      <p>{sensor.descricao}</p>
+                    </div>
+                    <div className="container-sensor-input-item">
+                      <p className="sensor-text">{sensor.metrica}</p>
+                    </div>
                   </div>
-                );
-              } else {
-                return <></>;
-              }
-            })}
-          <div className="dot-container">
-            {sensoresMatrix &&
-              sensoresMatrix.map((sensor, index) => {
-                return (
-                  <>
-                    <Dot
-                      key={index}
-                      BackColor={activeStep === index ? "#7459D9" : "#E3DEF7"}
-                      onClick={() => {
-                        handleDot(index);
-                      }}
-                    ></Dot>
-                  </>
                 );
               })}
           </div>
+          ;
         </Background>
       </MobileView>
     </>
