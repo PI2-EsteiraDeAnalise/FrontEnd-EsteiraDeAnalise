@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Background = styled.div`
   width: 100%;
@@ -28,5 +28,13 @@ export const Background = styled.div`
   svg {
     width: 250px;
     background-color: #7459d9;
+  }
+`;
+
+export const Image = styled.div`
+  img {
+    margin-top: 20px;
+    width: 104px;
+    height: 82px;
   }
 `;
