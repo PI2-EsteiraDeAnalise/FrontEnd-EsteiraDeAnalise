@@ -8,37 +8,18 @@ import el from "date-fns/locale/pt";
 import { Section } from "./styles";
 import Menu from "../../Components/Menu";
 
-export const optionsLineChart = {
-  title: "Total de placas",
-  curveType: "function",
-  legend: { position: "bottom" },
-  series: {
-    0: { color: "#7459D9" },
-    1: { color: "#B9ABEB" },
-  },
-};
-
-export const optionsPieChartMonth = {
-  title: "Porcentual de todos os dados obtidos no ano",
-  is3D: true,
-  colors: ["#7459D9", "#B9ABEB"],
-  pieSliceTextStyle: {
-    color: "black",
-  },
-};
-
-export const optionsPieChartYear = {
-  title: "Porcentual de todos os dados obtidos no mês",
-  is3D: true,
-  colors: ["#7459D9", "#B9ABEB"],
-  pieSliceTextStyle: {
-    color: "black",
-  },
-};
-
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
-  const [dataWithDatePicker, setDataWithDatePicker] = useState([]);
+  const [dataWithDatePicker, setDataWithDatePicker] = useState([
+    ["dia", "Sucesso", "Falhas"],
+    ["1", 0, 0],
+    ["5", 0, 0],
+    ["10", 0, 0],
+    ["15", 0, 0],
+    ["20", 0, 0],
+    ["25", 0, 0],
+    ["30", 0, 0],
+  ]);
   const [dataPieChartMonth, setDataPieChartMonth] = useState([
     ["Placas", "Total"],
     ["Total de Sucessos", 0],
@@ -49,6 +30,34 @@ const Dashboard = () => {
     ["Total de Sucessos", 0],
     ["Total de Falhas", 0],
   ]);
+
+  const optionsLineChart = {
+    title: "Total de placas por dia no mês",
+    curveType: "function",
+    legend: { position: "bottom" },
+    series: {
+      0: { color: "#7459D9" },
+      1: { color: "#B9ABEB" },
+    },
+  };
+
+  const optionsPieChartYear = {
+    title: "Porcentual de todos os dados obtidos no ano",
+    is3D: true,
+    colors: ["#7459D9", "#B9ABEB"],
+    pieSliceTextStyle: {
+      color: "black",
+    },
+  };
+
+  const optionsPieChartMonth = {
+    title: "Porcentual de todos os dados obtidos no mês",
+    is3D: true,
+    colors: ["#7459D9", "#B9ABEB"],
+    pieSliceTextStyle: {
+      color: "black",
+    },
+  };
 
   registerLocale("el", el);
 
@@ -62,13 +71,11 @@ const Dashboard = () => {
         let monthUnsuccessful = 0;
 
         const data = response.data;
-        console.log(startDate.getFullYear());
-        console.log(startDate.getMonth() + 1);
 
         data.forEach((monthData) => {
-          if (monthData.mes === startDate.getMonth() + 1) {
-            monthSuccessful = monthData.sucesso;
-            monthUnsuccessful = monthData.falha;
+          if (monthData.month === startDate.getMonth() + 1) {
+            monthSuccessful = monthData.successfully;
+            monthUnsuccessful = monthData.unsuccessfully;
           }
           totalSuccessful += monthData.successfully;
           totalUnsuccessful += monthData.unsuccessfully;
@@ -90,63 +97,30 @@ const Dashboard = () => {
         console.log(err);
       });
 
-    var dataLineChart = [];
+    api
+      .get(
+        `/boards?year=${startDate.getFullYear()}&month=${
+          startDate.getMonth() + 1
+        }`
+      )
+      .then((response) => {
+        const data = response.data;
 
-    switch (startDate.getMonth() + 1) {
-      case 2:
-        dataLineChart = [
-          ["Quantidade", "Sucesso", "Falhas"],
-          ["1", 1200, 1200],
-          ["5", 1300, 900],
-          ["10", 900, 400],
-          ["15", 1000, 500],
-          ["20", 1200, 600],
-          ["25", 500, 1100],
-          ["30", 1600, 400],
-        ];
-        setDataWithDatePicker(dataLineChart);
-        break;
-      case 3:
-        dataLineChart = [
-          ["Quantidade", "Sucesso", "Falhas"],
-          ["1", 1000, 1000],
-          ["5", 1100, 400],
-          ["10", 700, 100],
-          ["15", 1200, 1100],
-          ["20", 1300, 600],
-          ["25", 1400, 1000],
-          ["30", 1400, 300],
-        ];
-        setDataWithDatePicker(dataLineChart);
-        break;
-      case 4:
-        dataLineChart = [
-          ["Quantidade", "Sucesso", "Falhas"],
-          ["1", 500, 800],
-          ["5", 600, 200],
-          ["10", 200, 700],
-          ["15", 1000, 300],
-          ["20", 1500, 500],
-          ["25", 1000, 700],
-          ["30", 1300, 200],
-        ];
-        setDataWithDatePicker(dataLineChart);
-        break;
+        let LineChart = [["dia", "Sucesso", "Falhas"]];
 
-      default:
-        dataLineChart = [
-          ["Quantidade", "Sucesso", "Falhas"],
-          ["1", 0, 0],
-          ["5", 0, 0],
-          ["10", 0, 0],
-          ["15", 0, 0],
-          ["20", 0, 0],
-          ["25", 0, 0],
-          ["30", 0, 0],
-        ];
-        setDataWithDatePicker(dataLineChart);
-        break;
-    }
+        data.forEach((dayData) => {
+          LineChart.push([
+            dayData.day.toString().split("-")[1],
+            dayData.successfully,
+            dayData.unsuccessfully,
+          ]);
+        });
+
+        setDataWithDatePicker(LineChart);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [startDate]);
 
   return (
@@ -174,20 +148,33 @@ const Dashboard = () => {
         data={dataWithDatePicker}
         options={optionsLineChart}
       />
-      <Chart
-        chartType="PieChart"
-        data={dataPieChartMonth}
-        options={optionsPieChartMonth}
-        height={"400px"}
-        width="100%"
-      />
-      <Chart
-        chartType="PieChart"
-        data={dataPieChartYear}
-        options={optionsPieChartYear}
-        height={"400px"}
-        width="100%"
-      />
+      {dataPieChartMonth &&
+      dataPieChartMonth[1][1] !== 0 &&
+      dataPieChartMonth[1][2] !== 0 ? (
+        <Chart
+          chartType="PieChart"
+          data={dataPieChartMonth}
+          options={optionsPieChartMonth}
+          height={"400px"}
+          width="100%"
+        />
+      ) : (
+        <div></div>
+      )}
+
+      {dataPieChartYear &&
+      dataPieChartYear[1][1] !== 0 &&
+      dataPieChartYear[1][2] !== 0 ? (
+        <Chart
+          chartType="PieChart"
+          data={dataPieChartYear}
+          options={optionsPieChartYear}
+          height={"400px"}
+          width="100%"
+        />
+      ) : (
+        <div></div>
+      )}
     </>
   );
 };
