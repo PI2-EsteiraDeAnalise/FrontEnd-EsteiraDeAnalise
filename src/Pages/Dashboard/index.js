@@ -18,14 +18,17 @@ export const optionsLineChart = {
   },
 };
 
-export const dataPieChart = [
-  ["Placas", "Total"],
-  ["Total de Sucessos", 21900],
-  ["Total de Falhas", 13000],
-];
+export const optionsPieChartMonth = {
+  title: "Porcentual de todos os dados obtidos no ano",
+  is3D: true,
+  colors: ["#7459D9", "#B9ABEB"],
+  pieSliceTextStyle: {
+    color: "black",
+  },
+};
 
-export const optionsPieChart = {
-  title: "Porcentual de todos os dados obtidos",
+export const optionsPieChartYear = {
+  title: "Porcentual de todos os dados obtidos no mês",
   is3D: true,
   colors: ["#7459D9", "#B9ABEB"],
   pieSliceTextStyle: {
@@ -36,12 +39,52 @@ export const optionsPieChart = {
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [dataWithDatePicker, setDataWithDatePicker] = useState([]);
+  const [dataPieChartMonth, setDataPieChartMonth] = useState([
+    ["Placas", "Total"],
+    ["Total de Sucessos", 0],
+    ["Total de Falhas", 0],
+  ]);
+  const [dataPieChartYear, setDataPieChartYear] = useState([
+    ["Placas", "Total"],
+    ["Total de Sucessos", 0],
+    ["Total de Falhas", 0],
+  ]);
+
+  registerLocale("el", el);
 
   useEffect(() => {
     api
       .get(`/boards?year=${startDate.getFullYear()}`)
       .then((response) => {
-        console.log(response.data);
+        let totalSuccessful = 0;
+        let totalUnsuccessful = 0;
+        let monthSuccessful = 0;
+        let monthUnsuccessful = 0;
+
+        const data = response.data;
+        console.log(startDate.getFullYear());
+        console.log(startDate.getMonth() + 1);
+
+        data.forEach((monthData) => {
+          if (monthData.mes === startDate.getMonth() + 1) {
+            monthSuccessful = monthData.sucesso;
+            monthUnsuccessful = monthData.falha;
+          }
+          totalSuccessful += monthData.successfully;
+          totalUnsuccessful += monthData.unsuccessfully;
+        });
+
+        setDataPieChartMonth([
+          ["Placas", "Total"],
+          ["Total de Sucessos", monthSuccessful],
+          ["Total de Falhas", monthUnsuccessful],
+        ]);
+
+        setDataPieChartYear([
+          ["Placas", "Total"],
+          ["Total de Sucessos", totalSuccessful],
+          ["Total de Falhas", totalUnsuccessful],
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -106,8 +149,6 @@ const Dashboard = () => {
     }
   }, [startDate]);
 
-  registerLocale("el", el);
-
   return (
     <>
       <Menu />
@@ -135,8 +176,15 @@ const Dashboard = () => {
       />
       <Chart
         chartType="PieChart"
-        data={dataPieChart}
-        options={optionsPieChart}
+        data={dataPieChartMonth}
+        options={optionsPieChartMonth}
+        height={"400px"}
+        width="100%"
+      />
+      <Chart
+        chartType="PieChart"
+        data={dataPieChartYear}
+        options={optionsPieChartYear}
         height={"400px"}
         width="100%"
       />
