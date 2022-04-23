@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const apiIPDetector = axios.create({
-  baseURL: "https://ipgeolocation.abstractapi.com",
+const api = axios.create({
+  baseURL: "http://localhost:5000",
 });
 
-export { apiIPDetector };
+export { api };

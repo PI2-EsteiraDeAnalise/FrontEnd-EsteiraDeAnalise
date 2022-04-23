@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { api } from "../../services/api";
 import {
   Button,
   Box,
@@ -13,8 +14,6 @@ import { BrowserView, MobileView } from "react-device-detect";
 
 import Menu from "../../Components/Menu";
 
-const data = ["resistor", "capacitor", "inductor", "diode", "transistor"];
-
 const Coordenadas = () => {
   const [tags, setTags] = React.useState([]);
   const [coordenada, setCoordenada] = React.useState([]);
@@ -24,8 +23,13 @@ const Coordenadas = () => {
   const [picture, setPicture] = React.useState(null);
 
   useEffect(() => {
-    setTags(data);
-  }, [coordenadas]);
+    api
+      .get("/tags")
+      .then((response) => {
+        setTags(response.data);
+      })
+      .catch((err) => {});
+  }, []);
 
   const FindPosition = (oElement) => {
     if (typeof oElement.offsetParent != "undefined") {
@@ -278,7 +282,11 @@ const Coordenadas = () => {
                                 <option value="">Selecione uma tag</option>
                                 {tags &&
                                   tags.map((tag) => {
-                                    return <option value={tag}>{tag}</option>;
+                                    return (
+                                      <option value={tag.name}>
+                                        {tag.name}
+                                      </option>
+                                    );
                                   })}
                               </NativeSelect>
                             </FormControl>
