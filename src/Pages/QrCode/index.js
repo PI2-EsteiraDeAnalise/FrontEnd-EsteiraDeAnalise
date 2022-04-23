@@ -9,7 +9,10 @@ const QRCode = () => {
     <>
       <Menu />
       <Background className="Background">
-        <QRCodeSVG size={200} value="https://reactjs.org/" />
+        <QRCodeSVG
+          size={200}
+          value="https://regal-biscotti-c44cfb.netlify.app/"
+        />
 
         <p>
           Leia o QR Code para ser redirecionado ao dashboard do forno de

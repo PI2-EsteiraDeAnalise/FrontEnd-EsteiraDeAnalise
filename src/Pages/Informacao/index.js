@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
+import { api } from "../../services/api";
 import { BrowserView, MobileView } from "react-device-detect";
 
 import { Background } from "./styles";
@@ -8,52 +9,32 @@ import Menu from "../../Components/Menu";
 const Informacoes = () => {
   const [sensores, setSensores] = React.useState([]);
 
-  useEffect(() => {
-    const data = [
-      {
-        metrica: "72 °C",
-        descricao: "Termopar 1",
-      },
-      {
-        metrica: "72 °C",
-        descricao: "Termopar 2",
-      },
-      {
-        metrica: "140 °C",
-        descricao: "Termopar 3",
-      },
-      {
-        metrica: "30 °C",
-        descricao: "Termopar 4",
-      },
-      {
-        metrica: "75 °C",
-        descricao: "Termopar 5",
-      },
-      {
-        metrica: "90 °C",
-        descricao: "Termopar 6",
-      },
-      {
-        metrica: "89 °C",
-        descricao: "Termopar 7 ",
-      },
-      {
-        metrica: "102 °C",
-        descricao: "Termopar 8",
-      },
-      {
-        metrica: "Ativo",
-        descricao: "Motores",
-      },
-    ];
+  const updateSensores = useCallback(() => {
+    api
+      .get("/metrics")
+      .then((response) => {
+        const data = response.data;
 
-    data.sort((a, b) => {
-      return a.descricao.localeCompare(b.descricao);
-    });
+        data.sort((a, b) => {
+          return a.description.localeCompare(b.description);
+        });
 
-    setSensores(data);
+        setSensores(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  useEffect(() => {
+    updateSensores();
+
+    const autoSave = setInterval(() => {
+      updateSensores();
+    }, 5000);
+
+    return () => clearInterval(autoSave);
+  }, [updateSensores]);
 
   return (
     <>
@@ -67,10 +48,10 @@ const Informacoes = () => {
                 return (
                   <div key={index} className="container-sensor-input">
                     <div className="title-sensor-input">
-                      <p>{sensor.descricao}</p>
+                      <p>{sensor.description}</p>
                     </div>
                     <div className="container-sensor-input-item">
-                      <p className="sensor-text">{sensor.metrica}</p>
+                      <p className="sensor-text">{sensor.metric}</p>
                     </div>
                   </div>
                 );
@@ -96,7 +77,6 @@ const Informacoes = () => {
                 );
               })}
           </div>
-          ;
         </Background>
       </MobileView>
     </>
