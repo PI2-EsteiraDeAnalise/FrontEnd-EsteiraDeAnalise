@@ -1,9 +1,9 @@
-import React from 'react';
-import { Background, Image } from './styles';
-import { QRCodeSVG } from 'qrcode.react';
-import Logo from '../../images/logo.png';
+import React from "react";
+import { Background, Image } from "./styles";
+import { QRCodeSVG } from "qrcode.react";
+import Logo from "../../images/logo.png";
 
-import Menu from '../../Components/Menu';
+import Menu from "../../Components/Menu";
 
 const QRCode = () => {
   return (
@@ -13,7 +13,7 @@ const QRCode = () => {
         <QRCodeSVG
           data-testid="qrcode"
           size={200}
-          value={'https://regal-biscotti-c44cfb.netlify.app/'}
+          value={"https://regal-biscotti-c44cfb.netlify.app/"}
         />
 
         <Image>
