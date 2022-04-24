@@ -61,8 +61,3 @@ Para isso apenas use os comandos abaixo
 ```bash
  npm test
 ```
-* Em seguida selecione a opção desejada ou use o comando para rodar todos os testes
-
-```bash
- a
-```
