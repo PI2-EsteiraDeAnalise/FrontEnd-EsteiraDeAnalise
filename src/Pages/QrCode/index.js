@@ -13,7 +13,7 @@ const QRCode = () => {
         <QRCodeSVG
           data-testid="qrcode"
           size={200}
-          value={"https://regal-biscotti-c44cfb.netlify.app/"}
+          value={"https://esteiradeanalise.netlify.app/"}
         />
 
         <Image>
