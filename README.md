@@ -12,6 +12,16 @@ Esta interface tem como objetivo atuar como aplicação web que permite os respo
 
 ## Como executar
 
+### Dependências necessárias
+
+Para executar o projeto há dois modos possíveis:
+
+* O primeiro você pode optar por instalar o [docker](https://docs.docker.com/) e o [docker](https://docs.docker.com/compose/install/) em sua máquina.
+
+* O segundo modo é realizando a instalação do [Node](https://nodejs.org/en/) e do [NPM](https://docs.npmjs.com/getting-started/) em sua máquina.
+
+Após realizar essa instalação apenas siga os comandos de execução abordados logo abaixo.
+
 ### Utilizando docker-compose
 
 Uma forma fácil de utilizar o projeto é utilizando [docker-compose](https://docs.docker.com/compose/install/).
