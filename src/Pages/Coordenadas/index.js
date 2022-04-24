@@ -15,6 +15,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import Menu from "../../Components/Menu";
 
 const Coordenadas = () => {
+  const [haveImage, setHaveImage] = React.useState(false);
   const [tags, setTags] = React.useState([]);
   const [coordenada, setCoordenada] = React.useState([]);
   const [realCoordenada, setRealCoordenada] = React.useState([]);
@@ -29,6 +30,32 @@ const Coordenadas = () => {
         setTags(response.data);
       })
       .catch((err) => {});
+
+    api
+      .get("/coordinates")
+      .then((response) => {
+        console.log(response.data);
+        const data = response.data;
+        let dataCoordenadas = [];
+
+        data.forEach((coordenada) => {
+          const dataCoordenada = [
+            coordenada.coordinates.x1,
+            coordenada.coordinates.y1,
+            coordenada.coordinates.x2,
+            coordenada.coordinates.y2,
+            coordenada.tag,
+            coordenada.id,
+          ];
+
+          dataCoordenadas.push(dataCoordenada);
+        });
+
+        setCoordenadas(dataCoordenadas);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const FindPosition = (oElement) => {
@@ -126,9 +153,18 @@ const Coordenadas = () => {
       let realC = [realCoordenada[0], realCoordenada[1], e.pageX, e.pageY];
       let imgC = [coordenada[0], coordenada[1], PosX, PosY];
       placeImage(realC, imgC);
+      console.log("realc", realC);
+      console.log("imgC", imgC);
       setCoordenadas([
         ...coordenadas,
-        [coordenada[0], coordenada[1], PosX, PosY, ""],
+        [
+          coordenada[0].toString(),
+          coordenada[1].toString(),
+          PosX.toString(),
+          PosY.toString(),
+          "",
+          "-1",
+        ],
       ]);
       setIsSecondClick(false);
     }
@@ -139,12 +175,34 @@ const Coordenadas = () => {
   };
 
   const handleInputImage = async (tempPicture) => {
+    window.scrollTo(0, 0);
+
     const newFile = {
       file: tempPicture[0],
       url: URL.createObjectURL(tempPicture[0]),
     };
 
     setPicture(newFile);
+
+    const localImagePage = document
+      .querySelector("#imgCoord")
+      .getBoundingClientRect();
+
+    console.log(localImagePage);
+
+    coordenadas.forEach((coordenada) => {
+      let x1 = localImagePage.x + parseFloat(coordenada[0]);
+      let y1 = localImagePage.y + parseFloat(coordenada[1]);
+      let x2 = localImagePage.x + parseFloat(coordenada[2]);
+      let y2 = localImagePage.y + parseFloat(coordenada[3]);
+
+      let realC = [x1, y1, x2, y2];
+      let imgC = [coordenada[0], coordenada[1], coordenada[2], coordenada[3]];
+
+      placeImage(realC, imgC);
+    });
+
+    setHaveImage(true);
   };
 
   const handleInsertTag = (e, index) => {
@@ -160,13 +218,36 @@ const Coordenadas = () => {
       if (coordenadas.length === 0) {
         alert("Deve haver ao menos uma coordenada!");
         return;
-      } else if (coordenadas.filter((coord) => coord[4] === "").length > 0) {
+      } else if (
+        coordenadas.filter((coord) => coord[4] === "" && coord[5] === "-1")
+          .length > 0
+      ) {
         alert("Preencha todas as tags");
         return;
       }
+
+      await coordenadas.forEach(async (coord) => {
+        if (coord[5] === "-1") {
+          const data = {
+            tag: coord[4],
+            coordinates: {
+              x1: coord[0],
+              y1: coord[1],
+              x2: coord[2],
+              y2: coord[3],
+            },
+          };
+
+          await api.post("/coordinates", data);
+        }
+      });
+
+      console.log(coordenadas);
     };
 
     postCoordenadas();
+
+    document.location.reload();
   };
 
   const removeHandle = (index) => {
@@ -182,7 +263,13 @@ const Coordenadas = () => {
 
       document.getElementById(id).remove();
 
-      tempCoord.splice(index, 1);
+      const removedCoord = tempCoord.splice(index, 1);
+
+      console.log(removedCoord);
+
+      if (removedCoord[0][5] !== "-1") {
+        api.delete(`/coordinate/${removedCoord[0][5]}`);
+      }
 
       setCoordenadas(tempCoord);
     }
@@ -247,6 +334,7 @@ const Coordenadas = () => {
                               color: "#3c52b2",
                             },
                           }}
+                          disabled={haveImage ? false : true}
                           onClick={() => {
                             removeHandle(index);
                           }}
@@ -270,6 +358,8 @@ const Coordenadas = () => {
                                 onChange={(e) => {
                                   handleInsertTag(e, index);
                                 }}
+                                disabled={coord[5] !== "-1"}
+                                defaultValue={coord[4]}
                                 sx={{
                                   border: "1px solid black",
                                   borderRadius: "5px",
