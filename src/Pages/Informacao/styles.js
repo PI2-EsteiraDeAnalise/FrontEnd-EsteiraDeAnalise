@@ -15,7 +15,7 @@ export const Background = styled.div`
     border-radius: 5px;
     margin: 0 auto;
     width: 40%;
-    height: 75vh;
+    height: 77vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
