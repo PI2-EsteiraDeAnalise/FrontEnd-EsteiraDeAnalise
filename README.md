@@ -2,6 +2,10 @@
 
 Esta interface tem como objetivo atuar como aplicação web que permite os responsáveis pelo maquinário da esteira de análise acessarem informações como: quantidades de análises realizadas, quantidades de placas aceitas e recusadas, informações a respeito do forno e a configuração de uma funcionalidade da IA.
 
+# Apresentação do produto
+
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/ix3fNvBvvO8)
+
 ## Ferramentas utilizadas
 
 * [React.js](https://reactjs.org/)
