@@ -4,7 +4,7 @@ Esta interface tem como objetivo atuar como aplicação web que permite os respo
 
 # Apresentação do produto
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/ix3fNvBvvO8)
+[![Vídeo da apresentação](https://i.imgur.com/o3Ygef7.png)](https://youtu.be/ix3fNvBvvO8)
 
 ## Ferramentas utilizadas
 
